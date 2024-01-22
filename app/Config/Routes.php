@@ -6,7 +6,7 @@ use App\Controllers\News;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'MailChimpController::index');
+$routes->get('/', 'MailChimpController::fetchMembersFromDb');
 /* $routes->get('news', [News::class, 'index']);
 $routes->get('news/new', [News::class, 'new']);
 $routes->post('news', [News::class, 'create']);
