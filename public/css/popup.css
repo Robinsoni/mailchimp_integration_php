@@ -1,0 +1,29 @@
+body{
+    background-color: aliceblue;
+}
+
+#popupModal{
+  background: rgba(60, 60, 60, 0.9);
+  position: absolute;
+  width: 88%;
+  height: 10%;
+  z-index: 5;
+  color: white;
+  border: 7px solid;
+  border-radius: 10px;
+}
+.close{
+  cursor: pointer;
+}
+.alert-danger{
+  position: absolute;
+  bottom: 48px;
+  color: #f04848;
+  background: rgba(60, 60, 60, 0.9);
+  text-align: center;
+  border-radius: 5px;
+  list-style: non;
+  width: 15%;
+}
+ 
+

@@ -22,6 +22,14 @@ class MailChimpModel extends Model
                     ->get( )-> getResultArray();
         
     }
+    public function upsertMember($data){ 
+        return $this->db->table('members')->upsert($data);
+        
+    }
+    public function getMemberByEmail($email){
+        return $this->db->table('members')->getWhere(['email'=>$email])->getRowArray();
+    }
+
     public function insertMembersToDB($data){
         return $this->db->table('members')->insertBatch($data);
     }

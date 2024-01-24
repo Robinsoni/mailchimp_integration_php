@@ -6,32 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Table Example</title>
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="<?php echo base_url('css/popup.css') ?>">
+
 </head>
 
 <body>
 
     <div style="margin: 20px;">
-    <button onclick="openModal()">Open Modal</button>
+
+        <button onclick="openModal()">Add member</button>
+        <?php if (!empty($validation_errors)): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php foreach ($validation_errors as $error): ?>
+                        <li>
+                            <?= esc($error) ?>
+                        </li>
+                    <?php endforeach ?>
+                </ul>
+            </div>
+        <?php endif ?>
         <div id="popupModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <form id="popupForm" action="<?= base_url('popup/processForm') ?>" method="post">
+                <form id="popupForm" action="<?= base_url('/create') ?>" method="post">
+                    <?= csrf_field() ?>
+                    <!-- Display validation errors -->
+
                     <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" required>
+                    <input type="email" id="email" name="email"
+                        value="<?= isset($old_data['email']) ? esc($old_data['email']) : '' ?>" required>
+                    <label for="member_status">Member Status:</label>
+                    <input type="text" id="member_status" name="member_status"
+                        value="<?= isset($old_data['member_status']) ? esc($old_data['member_status']) : 'subscribed' ?>"
+                        required>
 
                     <label for="listId">List ID:</label>
-                    <input type="text" id="listId" name="listId" required>
-
-                    <label for="member_status">Member Status:</label>
-                    <input type="text" id="member_status" name="member_status" required>
-
+                    <input type="text" id="listId" name="listId"
+                        value="<?= isset($old_data['listId']) ? esc($old_data['listId']) : '' ?>"
+                        placeholder="Optional">
                     <button type="submit">Submit</button>
                 </form>
             </div>
         </div>
+        <form id="popupForm" action="<?= base_url('/fetchListMemebersFromAPI') ?>" method="get">
+            <button type="submit">Fetch all members from mailchimp</button>
+        </form>
 
 
-        <h2>Data Table with Search Filter</h2>
+        <h2>Mailchimp Integration</h2>
 
         <table id="dataTable" class="display" style="text-align: center;">
             <thead>
@@ -92,19 +115,24 @@
         /**
          * Model handler
          */
-       
-            // Add JavaScript code here for handling modal display and closure
-            function openModal() {
+
+        // Add JavaScript code here for handling modal display and closure
+        function openModal() {
+            if (document.getElementById('popupModal').style.display == "block") {
+                document.getElementById('popupModal').style.display = 'none';
+            } else {
                 document.getElementById('popupModal').style.display = 'block';
             }
+            document.querySelector(".alert-danger").style.display = 'none';
+        }
 
-            function closeModal() {
-                document.getElementById('popupModal').style.display = 'none';
-            }
+        function closeModal() {
+            document.getElementById('popupModal').style.display = 'none';
+        }
 
-    
+
     </script>
-
+    <script src="<?php echo base_url('js/popup.js') ?>"></script>
 </body>
 
 </html>
